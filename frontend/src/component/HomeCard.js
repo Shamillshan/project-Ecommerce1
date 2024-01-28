@@ -1,11 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const homeCard = ({ name, image, category, price, loading }) => {
+const homeCard = ({ name, image, category, price, loading,id }) => {
   return (
     <div className="bg-slate-200 shadow-lg p-2 rounded min-w-[150px]">
 
       {name ? (
         <>
+        <Link to={`/menu/${id}`} onClick={()=>window.scrollTo({top:"0",behavior : "smooth"})}>
           <div className="w-40 min-h-[150px]">
             <img src={image} className="h-full w-full" />
           </div>
@@ -17,7 +19,9 @@ const homeCard = ({ name, image, category, price, loading }) => {
             <span className="text-red-500">₹</span>
             <span>{price}</span>
           </p>
+          </Link>
         </>
+
       )
     :
       <div className="flex justify-center items-center h-full">

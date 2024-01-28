@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {createBrowserRouter,createRoutesFromElements,Route,Router,RouterProvider,} from "react-router-dom";
+import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider,} from "react-router-dom";
 import Home from "./page/Home";
 import Menu from "./page/Menu";
 import About from "./page/About";
@@ -13,6 +13,7 @@ import Newproduct from "./page/Newproduct";
 import Signup from "./page/Signup";
 import { store } from "./redux/index";
 import { Provider } from "react-redux";
+import Cart from "./page/Cart";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="newproduct" element={<Newproduct />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="cart" element={<Cart />} />
     </Route>
   )
 );

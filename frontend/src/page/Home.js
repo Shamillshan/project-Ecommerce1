@@ -1,37 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import HomeCard from '../component/homeCard'
+import HomeCard from '../component/HomeCard'
 import { useSelector } from 'react-redux'
-import CardFeature from '../component/Cardfeature'
+import CardFeature from '../component/CardFeature'
 import FilterProduct from '../component/FilterProduct'
+import AllProducts from '../component/AllProducts'
 
 
 const Home = () => {
   const productData = useSelector((state)=>state.product.productList)
-  console.log(productData)
+
   const homeProductCartList = productData.slice(0,5)
   const homeProductCartListGadgets = productData.filter(el => el.category === "headphones",[])
-  console.log(homeProductCartListGadgets)
+
 
 const loadingArray = new Array(4).fill(null)
 const loadingArrayFeature = new Array(7).fill(null)
 
-const categoryList = [...new Set(productData.map(el=>el.category))]
-console.log(categoryList)
-
-
-//filter data display
-const [filterby,setFilterBy] = useState("")
-const [dataFilter,setDataFilter] = useState([])
-
-useEffect(()=>{
-  setDataFilter(productData)
-},[productData])
-
-
-const handleFilterProduct = (category) => {
-  const filter = productData.filter((el) => el.category.toLowerCase() === category.toLowerCase());
-  setDataFilter(filter);
-};
 
 
 
@@ -53,6 +37,7 @@ const handleFilterProduct = (category) => {
           return(
             <HomeCard
               key={el._id}
+              id={el._id}
               image={el.image}
               name={el.name}
               price={el.price}
@@ -63,7 +48,7 @@ const handleFilterProduct = (category) => {
          loadingArray.map((el,index)=>{
           return(
             <HomeCard
-              key={index}
+              key={index+"loading"}
               loading = {"Loading..."}
               />
           )
@@ -79,7 +64,8 @@ const handleFilterProduct = (category) => {
            homeProductCartListGadgets[0] ? homeProductCartListGadgets.map(el =>{
               return(
                 <CardFeature
-                  key={el._id}
+                  key={el._id+"gadgets"}
+                  id={el._id}
                   name={el.name}
                   category={el.category}
                   price={el.price}
@@ -88,46 +74,14 @@ const handleFilterProduct = (category) => {
               )
             })
 
-            : loadingArrayFeature.map((el) => (
-            <CardFeature loading="Loading..."/>
+            : loadingArrayFeature.map((el,index) => (
+            <CardFeature loading="Loading..." key={index+"cartLoading"}/>
             ))
           }
         </div>
     </div>
-          
-          <div className='my-5'>
-          <h2 className='font-bold text-2xl text-slate-800 mb-4 underline '>
-            Your Product
-            </h2>
 
-            <div className=''>
-            <div className='flex gap-4 justify-center '>
-                 {
-                  categoryList[0] && categoryList.map(el => {
-                    return(
-                      <FilterProduct category={el} onClick={()=>handleFilterProduct(el) }/>
-                    )
-                  })
-                 }
-            </div>
-
-            <div className='flex flex-wrap justify-center gap-4 my-4'>
-                 {
-                  dataFilter.map(el => {
-                    return(
-                      <CardFeature
-                        key={el._id}
-                        image={el.image}
-                        name={el.name}
-                        category={el.category}
-                        price={el.price}
-                      />
-                    )
-                  })
-                 }
-            </div>
-          </div>
-    </div>
+          <AllProducts heading={"Your Product"}/>
     </div>
   )
 }
