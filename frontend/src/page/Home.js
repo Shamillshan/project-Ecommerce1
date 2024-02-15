@@ -6,6 +6,8 @@ import FilterProduct from '../component/FilterProduct'
 import AllProducts from '../component/AllProducts'
 
 
+
+
 const Home = () => {
   const productData = useSelector((state)=>state.product.productList)
 
@@ -15,8 +17,6 @@ const Home = () => {
 
 const loadingArray = new Array(4).fill(null)
 const loadingArrayFeature = new Array(7).fill(null)
-
-
 
 
   return (

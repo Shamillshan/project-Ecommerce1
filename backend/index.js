@@ -13,25 +13,38 @@ const PORT = process.env.PORT || 8080
  //mongodb connection
 console.log(process.env.MONGODB_URL)
 mongoose.set('strictQuery',false);
-mongoose.connect(process.env.MONGODB_URL)
-.then(()=>console.log("Connected to database"))
-.catch((err)=>console.log(err))
+
+mongoose.connect("mongodb+srv://shamil:shamil123@shamilstoreecommerce.6luy2zl.mongodb.net/shamilEcommerce?retryWrites=true&w=majority", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// mongoose.connect(process.env.MONGODB_URL)
+// .then(()=>console.log("Connected to database"))
+// .catch((err)=>console.log(err))
 
 //schema
 const userSchema = mongoose.Schema({
-    firstName: String,
-    lastName: String,
-    email: {
-     type : String,
-     unique : true,
-    },
-    password: String,
-    confirmPassword: String,
-    image : String
-})
+  firstName: String,
+  lastName: String,
+  email: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  image: String,
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-//model
-const userModel = mongoose.model("user",userSchema)
+// userModel
+const userModel = mongoose.model("user", userSchema);
 
 //api
 app.get("/",(req,res)=>{
@@ -49,7 +62,7 @@ app.post("/signup", async (req, res) => {
             if (existingUser) {
                 res.status(409).json({ message: 'Email is already registered' , alert : false });
             } else {
-                const newUser = new userModel(req.body);
+                const newUser = new userModel({...req.body, role: "user"});
                 const savedUser = await newUser.save();
                 res.status(200).json({ message: 'Successfully signed up' , alert : true });
             }
@@ -60,33 +73,55 @@ app.post("/signup", async (req, res) => {
     });
 
     //api login
-        app.post("/login", async (req, res) => {
-            console.log(req.body);
-            const { email } = req.body;
-        
-            try {
-                const result = await userModel.findOne({ email: email });
-        
-                if (result) {
-                    console.log(result);
-                    const dataSend = {
-                        _id: result._id,
-                        firstName: result.firstName,
-                        lastName: result.lastName,
-                        email: result.email,
-                        image: result.image,
-                    };
-                    console.log(dataSend);
-                    res.status(200).json({ message: 'Login is successful', alert: true, data: dataSend });
-                } else {
-                    res.status(404).json({ message: "This email-id doesn't exist, please Signup", alert: false });
-                }
-            } catch (error) {
-                console.error(error);
-                res.status(500).json({ message: 'Internal server error' });
-            }
-        });
 
+    app.post("/login", async (req, res) => {
+      const { email, password } = req.body;
+      try {
+        const user = await userModel.findOne({ email: email });
+        if (!user) {
+          return res.status(400).json({ message: "Email not found", alert: false });
+        }
+    
+        // Compare passwords
+        if (password !== user.password) {
+          return res.status(401).json({ message: "Incorrect password", alert: false });
+        }
+    
+        // If passwords match, login successful
+        const dataSend = {
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          image: user.image,
+        };
+    
+        if (user.isAdmin) {
+          // If user is an admin, redirect to admin page
+          return res.status(200).json({
+            message: "Admin login successful",
+            alert: true,
+            data: dataSend,
+            isAdmin: true,
+            redirectUrl: "/admin" // Specify the URL of the admin page
+          });
+        } else {
+          // If user is not an admin, redirect to main page
+          return res.status(200).json({
+            message: "Login successful",
+            alert: true,
+            data: dataSend,
+            isAdmin: false,
+            redirectUrl: "/main-page" // Specify the URL of the main page
+          });
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        // Log the error for debugging
+        return res.status(500).json({ message: "Internal server error", alert: false, error: error.message });
+      }
+    });
+    
         //product section
 
         const schemaProduct = mongoose.Schema({

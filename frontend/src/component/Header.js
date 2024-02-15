@@ -35,8 +35,7 @@ const Header = () => {
       <div className="flex items-center gap-3">
         <nav className=" gap-4 md:gap-6 text-base md:text-lg hidden md:flex">
           <Link to={""}>Home</Link>
-          <Link to={"menu/65a6e8e79b46bfc844a65e6f"}>Menu</Link>
-          <Link to={"about"}>About</Link>
+          <Link to={"menu/65a6e81d9b46bfc844a65e6b"}>Menu</Link>
           <Link to={"contact"}>Contact</Link>
         </nav>
         <div className="text-2xl text-slate-600 ml-4 relative cursor-pointer">
@@ -53,21 +52,11 @@ const Header = () => {
           {showMenu && (
             <div className="absolute right-2 bg-white py-2 shadow drop-shadow-md flex flex-col min-w-[120px] text-center">
               {
-                userData.email === process.env.REACT_APP_ADMIN_EMAIL &&  <Link
-                to={"newproduct"}
-                className="whitespace-nowrap cursor-pointer px-2"
-              >
-                New product
-              </Link>
-              }
-            
-              {
                 userData.image ? <p className="cursor-pointer text-white px-2  bg-red-500" onClick={handleLogout}>Logout</p> : <Link to={"login"} className="whitespace-nowrap cursor-pointer px-2">Login</Link>
               }
                <nav className=" text-base md:text-lg flex flex-col md:hidden ">
           <Link to={""} className="px-2 py-1">Home</Link>
           <Link to={"menu/65a6e8e79b46bfc844a65e6f"} className="px-2 py-1">Menu</Link>
-          <Link to={"about"} className="px-2 py-1">About</Link>
           <Link to={"contact"} className="px-2 py-1">Contact</Link>
         </nav>
               

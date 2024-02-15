@@ -16,12 +16,12 @@ const Menu = () => {
     dispatch(addCartItem(productDisplay))
   }
 
- 
+
   return (
     <div className=' p-2 md:p-4'>
       <div className='w-full max-w-5xl  m-auto md:flex bg-white'>
           <div className=' max-w-lg bg-slate-100 overflow-hidden w-full p-4 '>
-            <img src={productDisplay.image} className='hover:scale-105 transition-all h-full'/>
+            <img src={productDisplay.image} alt='' className='hover:scale-105 transition-all h-full'/>
           </div>
           <div className='flex flex-col gap-1'>
           <h3 className="font-semibold text-slate-600  capitalize text-3xl ">

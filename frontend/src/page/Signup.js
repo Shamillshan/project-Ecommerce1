@@ -17,6 +17,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
     image : ""
+    
   });
   console.log(data)
   const handleShowPassword = () => {
