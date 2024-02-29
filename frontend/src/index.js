@@ -8,12 +8,16 @@ import Home from "./page/Home";
 import Menu from "./page/Menu";
 import Contact from "./page/Contact";
 import Login from "./page/login";
-import Newproduct from "./page/Newproduct";
+import Newproduct from "./admin/Newproduct";
 import Signup from "./page/Signup";
 import { store } from "./redux/index";
 import { Provider } from "react-redux";
 import Cart from "./page/Cart";
-import AdminDashboard from './component/admin/AdminDashboard'
+import AdminDashboard from './admin/AdminDashboard'
+import ProductList from "./admin/ProductList";
+import EditProduct from "./admin/Editproduct";
+import Manageusers from "./admin/Manageusers";
+import  Profile  from "./page/Profile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +30,11 @@ const router = createBrowserRouter(
       <Route path="signup" element={<Signup />} />
       <Route path="cart" element={<Cart />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin/add-product" element={<Newproduct/>} />
+      <Route path="/admin/view-product" element={<ProductList/>} />
+      <Route path="/edit-product/:productId" element={<EditProduct />} />
+      <Route path="/admin/view-users" element={<Manageusers />} />
+      <Route path="/profile" element={<Profile/>} />
     </Route>
   )
 );
@@ -37,7 +46,8 @@ root.render(
     <RouterProvider router={router}>
       <App />
     </RouterProvider>
-  </Provider>
+  </Provider> 
+  
 );
 
 

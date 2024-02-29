@@ -6,6 +6,7 @@ import { ImagetoBase64 } from "../utility/ImagetoBase64";
 import { toast } from "react-hot-toast";
 
 
+
 const Signup = () => {
     const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
@@ -89,7 +90,7 @@ console.log(process.env.REACT_APP_SERVER_DOMAIN)
       <div className="w-full max-w-sm bg-white m-auto flex flex-col p-4">
         {/* <h1 className='text-center text-2xl font-bold'>Sign up</h1> */}
         <div className="w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative">
-          <img src={data.image ? data.image : loginSignupImage} className="w-full h-full" />
+          <img src={data.image ? data.image : loginSignupImage} alt="" className="w-full h-full" />
           
           <label htmlFor="profileImage">
         <div className="absolute bottom-0 h-1/3 bg-slate-500 bg-opacity-40 w-full text-center cursor-pointer">

@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Header from "./component/Header";
 import { Outlet, useLocation } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { setDataProduct } from "./redux/productSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,14 +23,17 @@ function App() {
 
   // Check if the current location is within the admin panel
   const isWithinAdminPanel = location.pathname.startsWith("/admin");
+  
+  // Check if the current route is EditProduct
+  const isEditProductPage = location.pathname.includes("/edit-product");
 
   return (
     <>
       <Toaster />
       <div>
         {/* Conditionally render the Header based on the location */}
-        {!isWithinAdminPanel && <Header />}
-        <main className="pt-16 bg-slate-100 min-h-[calc(100vh)]">
+        {!isWithinAdminPanel && !isEditProductPage && <Header />}
+        <main className="pt-14 bg-slate-100 min-h-[calc(100vh)]">
           <Outlet />
         </main>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const Contact = () => {
   return (
     <div className="container mx-auto mt-8 p-4">
