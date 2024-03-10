@@ -11,9 +11,11 @@ import {
   Button,
   Typography,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Manageusers = () => {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,11 +45,21 @@ const Manageusers = () => {
     }
   };
 
+  const goToDashboard = () => {
+    // Navigate to AdminDashboard.js
+    navigate('/admin');
+  };
+
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
-        User Management
-      </Typography>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h4" gutterBottom>
+          User Management
+        </Typography>
+        <Button variant="contained" color="primary" onClick={goToDashboard}>
+          Go to Dashboard
+        </Button>
+      </div>
 
       <TableContainer component={Paper}>
         <Table>

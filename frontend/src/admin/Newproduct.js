@@ -1,78 +1,73 @@
-import React, { useState } from 'react'
-import {MdDriveFolderUpload} from "react-icons/md"
-import { ImagetoBase64 } from '../utility/ImagetoBase64'
-import toast from 'react-hot-toast'
-
+import React, { useState } from 'react';
+import { MdDriveFolderUpload } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { ImagetoBase64 } from '../utility/ImagetoBase64';
+import toast from 'react-hot-toast';
 
 const Newproduct = () => {
-  const [data,setData] = useState({
-    name : "",
-    category : "",
-    image : "",
-    price : "",
-    description : ""
-  })
+  const navigate = useNavigate();  // Initialize the useNavigate hook
+  const [data, setData] = useState({
+    name: '',
+    category: '',
+    image: '',
+    price: '',
+    description: '',
+  });
 
-  const handleOnChange = (e)=>{
-    const {name,value} = e.target
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
 
-    setData((preve)=>{
-      return{
-        ...preve,
-        [name] : value
-      }
-    })
-  }
+    setData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
 
-  const uploadImage = async(e)=>{
-    const data = await ImagetoBase64(e.target.files[0])
-    // console.log(data)
+  const uploadImage = async (e) => {
+    const data = await ImagetoBase64(e.target.files[0]);
 
-    setData((preve)=>{
-      return{
-        ...preve,
-        image : data
-      }
-    })
+    setData((prev) => {
+      return {
+        ...prev,
+        image: data,
+      };
+    });
+  };
 
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { name, image, category, price } = data;
 
-  const handleSubmit = async(e) => {
-    e.preventDefault()
-    console.log(data)
+    if (name && image && category && price) {
+      const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMAIN}/uploadProduct`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    const {name,image,category,price} = data
+      const fetchRes = await fetchData.json();
+      toast(fetchRes.message);
 
-    if(name && image && category && price){
-      
-    const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMAIN}/uploadProduct`,{
-      method : "POST",
-      headers : {
-        "content-type" : "application/json"
-      },
-      body : JSON.stringify(data)
-    })
+      setData(() => {
+        return {
+          name: '',
+          category: '',
+          image: '',
+          price: '',
+          description: '',
+        };
+      });
 
-    const fetchRes = await fetchData.json()
-
-    console.log(fetchRes)
-    toast(fetchRes.message)
-
-    setData(()=>{
-      return{
-        name : "",
-        category : "",
-        image : "",
-        price : "",
-        description : ""
-      }
-    })
+      // Navigate to AdminDashboard page after successful submission
+      navigate('/admin');
+    } else {
+      toast('Enter Required fields');
     }
-    else {
-      toast("Enter Required fields")
-    }
-
-  }
+  };
 
   return (
     <div className="p-4 ">

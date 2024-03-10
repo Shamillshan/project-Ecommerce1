@@ -7,8 +7,10 @@
   // Create an instance of Express
   const app = express();
 
+  
   // Enable Cross-Origin Resource Sharing (CORS)
-  app.use(cors());
+  app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
 
   // Enable parsing of JSON data
   app.use(express.json({ limit: "10mb" }));
@@ -306,8 +308,6 @@ app.get("/products/:productId", async (req, res) => {
     }
   });
 
-  
-
   // Route to fetch admin dashboard statistics
 app.get("/admin/stats", async (req, res) => {
   try {
@@ -324,36 +324,56 @@ app.get("/admin/stats", async (req, res) => {
   }
 });
 
-// Add this route to fetch user details by email
-app.get("/user/:email", async (req, res) => {
-  try {
-    const { email } = req.params;
 
-    // Find the user by email
+// Route to fetch user details by email
+app.get("/user/:email", async (req, res) => {
+  const { email } = req.params;
+
+  try {
     const user = await userModel.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // Prepare user data to send in the response
-    const dataSend = {
-      _id: user._id,
+    const userData = {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       image: user.image,
     };
 
-    res.status(200).json(dataSend);
+    res.status(200).json(userData);
   } catch (error) {
     console.error("Error fetching user details:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
+// Route to update user details by email
+app.put("/update-user/:email", async (req, res) => {
+  try {
+    const { email } = req.params;
+    const updatedDetails = req.body;
+
+    // Find and update the user details by email
+    const updatedUser = await userModel.findOneAndUpdate(
+      { email },
+      { $set: updatedDetails },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error("Error updating user details:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 
-
-  // Start the server
-  app.listen(PORT, () => console.log("Server is running at port : " + PORT));
+// Start the server
+app.listen(PORT, () => console.log("Server is running at port : " + PORT));

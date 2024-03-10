@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
-  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,17 +46,28 @@ const ProductList = () => {
       );
 
       // Close the confirmation dialog
-      setDeleteConfirmation(null);
     } catch (error) {
       console.error('Error deleting product:', error);
     }
   };
 
-  return (
-    <div>
-      <h2 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '24px' }}>All Products</h2>
+  const goToDashboard = () => {
+    // Navigate to AdminDashboard.js
+    navigate('/admin');
+  };
 
-      <div className="card-container">
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2 style={{ fontWeight: 'bold', fontSize: '24px' }}>All Products</h2>
+        <button
+          className="go-to-dashboard-button px-3 bg-blue-500 text-white rounded-md"
+          onClick={goToDashboard}
+        >
+          Go to Dashboard
+        </button>
+      </div>
+      <div className="card-container" style={{ display: 'flex', justifyContent: 'center' }}>
         {products.map((product) => (
           <div key={product._id} className="card">
             <h3>{product.name}</h3>

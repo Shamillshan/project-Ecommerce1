@@ -29,7 +29,6 @@ const AdminDashboard = () => {
    
       {/* Content */}
       <div className="flex-1 p-10">
-        {/* Navigation Bar */}
         <nav className="bg-blue-500 text-white p-4 mb-4">
           <ul className="flex justify-center space-x-4">
             {/* <li>

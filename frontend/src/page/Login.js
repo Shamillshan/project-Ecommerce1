@@ -56,8 +56,10 @@ if (dataRes.alert) {
   // Extract email from dataRes.data
   const userEmail = dataRes.data.email;
 
+  console.log('User Email:', userEmail);
   // Check if the email is defined before storing in sessionStorage
   if (userEmail) {
+    console.log('Storing email in sessionStorage:', userEmail);
     sessionStorage.setItem('userEmail', userEmail);
   }
 
@@ -127,7 +129,7 @@ if (dataRes.alert) {
           </Link>
         </p>
       </div>
-    </div>
+    </div>  
   );
 };
 

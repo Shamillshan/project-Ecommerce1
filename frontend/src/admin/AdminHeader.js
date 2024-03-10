@@ -10,8 +10,11 @@ const AdminHeader = ({ handleSidebarToggle }) => {
 
   const handleLogout = () => {
     dispatch(logoutRedux());
-    toast("Logout Successfully")
-    // Perform any additional logout logic if needed
+
+    // Clear the email from sessionStorage
+    sessionStorage.removeItem('userEmail');
+
+    toast("Logout Successfully");
 
     // Navigate to the login page
     navigate("/login");

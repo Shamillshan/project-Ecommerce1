@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CartProduct from "../component/cartProduct";
 import emptyCartImage from "../assest/empty.gif";
-import  setCartItem  from "../redux/productSlice"; // Update the path
+import { setCartItem } from "../redux/productSlice"; // Update the path
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,6 @@ const Cart = () => {
 
         {productCartItem[0] ? (
           <div className="my-3 flex gap-3">
-            {/* display cart items */}
             <div className="w-full max-w-3xl">
               {productCartItem.map((el) => (
                 <CartProduct
@@ -60,7 +59,6 @@ const Cart = () => {
               ))}
             </div>
 
-            {/* total cart item */}
             <div className="w-full max-w-md text-white bg-black ml-auto">
               <h2 className="bg-red-700 text-white font-bold p-1 text-lg">
                 Summary

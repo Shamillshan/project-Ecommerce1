@@ -18,7 +18,7 @@ export const productSlice = createSlice({
       if (check) {
         toast("Already Added to Cart");
       } else {
-        toast("Item Added to Cart")
+        toast("Item Added to Cart");
         const total = action.payload.price;
         state.cartItem = [
           ...state.cartItem,
@@ -35,26 +35,25 @@ export const productSlice = createSlice({
     increaseQty: (state, action) => {
       const index = state.cartItem.findIndex((el) => el._id === action.payload);
       let qty = state.cartItem[index].qty;
-      const qtyInc = ++qty
+      const qtyInc = ++qty;
       state.cartItem[index].qty = qtyInc;
 
-      const price = state.cartItem[index].price
-      const total = price *qtyInc
+      const price = state.cartItem[index].price;
+      const total = price * qtyInc;
 
-      state.cartItem[index].total = total
-
+      state.cartItem[index].total = total;
     },
     decreaseQty: (state, action) => {
       const index = state.cartItem.findIndex((el) => el._id === action.payload);
       let qty = state.cartItem[index].qty;
       if (qty > 1) {
-        const qtyDec = --qty
+        const qtyDec = --qty;
         state.cartItem[index].qty = qtyDec;
 
-        const price = state.cartItem[index].price
-        const total = price *qtyDec
-  
-        state.cartItem[index].total = total
+        const price = state.cartItem[index].price;
+        const total = price * qtyDec;
+
+        state.cartItem[index].total = total;
       }
     },
   },
@@ -67,5 +66,8 @@ export const {
   increaseQty,
   decreaseQty,
 } = productSlice.actions;
+
+
+export const setCartItem = (cartItems) => ({ type: 'product/setCartItem', payload: cartItems });
 
 export default productSlice.reducer;
